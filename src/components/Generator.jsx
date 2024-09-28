@@ -4,6 +4,7 @@ import { PiSoundcloudLogo } from "react-icons/pi";
 import { SCHEMES, WORKOUTS } from "../utils/swoldier";
 import { FaSortDown } from "react-icons/fa";
 import { CgLayoutGrid } from "react-icons/cg";
+import Button from "./Button";
 
 const Header = (props) => {
 	const { index, title, description } = props;
@@ -21,26 +22,35 @@ const Header = (props) => {
 	);
 };
 
-export default function Generator() {
+export default function Generator(props) {
+	const {
+		muscles,
+		setMuscles,
+		poison,
+		setPoison,
+		goals,
+		setGoals,
+		updateWorkout,
+	} = props;
 	const [showModal, setShowModal] = useState(false);
-	const [poison, setPoison] = useState("individual");
-	const [muscles, setMuscles] = useState([]);
-	const [goals, setGoals] = useState("strength_power");
 
 	const updateMuscles = (muscleGroup) => {
 		if (muscles.includes(muscleGroup)) {
 			setMuscles(muscles.filter((item) => item !== muscleGroup));
 			return;
 		}
+		setMuscles([...muscles, muscleGroup]);
+		if (muscles.length === 2) {
+			setShowModal(false);
+		}
 		if (muscles.length > 3) {
 			return;
 		}
 		if (poison !== "individual") {
 			setMuscles([muscleGroup]);
+			setShowModal(false);
 			return;
 		}
-
-		setMuscles([...muscles, muscleGroup]);
 	};
 
 	const toggleModal = () => {
@@ -62,6 +72,7 @@ export default function Generator() {
 					return (
 						<button
 							onClick={() => {
+								setMuscles([]);
 								setPoison(item);
 							}}
 							className={
@@ -89,13 +100,15 @@ export default function Generator() {
 			>
 				<button
 					onClick={() => toggleModal()}
-					className="relative flex items-center justify-center mb-3 "
+					className="relative flex items-center justify-center  "
 				>
-					<p>Vyber svalové skupiny.</p>
+					<p className="capitalize">
+						{muscles.length == 0 ? "Vyber svalové skupiny." : muscles.join(" ")}
+					</p>
 					<FaSortDown className="absolute right-3 top-1/2 -translate-y-1/2" />
 				</button>
 				{showModal && (
-					<div className="flex flex-col px-3 pb-3 gap-2">
+					<div className="flex flex-col px-3 pb-3 gap-2 mt-3">
 						{(poison === "individual"
 							? WORKOUTS[poison]
 							: Object.keys(WORKOUTS[poison])
@@ -126,7 +139,7 @@ export default function Generator() {
 				title={"Staň sa atlétom."}
 				description={"Zvoľ si konečný cieľ."}
 			/>
-			<div className="grid grid-cols-3  gap-4">
+			<div className="grid grid-cols-1 sm:grid-cols-3  gap-4">
 				{Object.keys(SCHEMES).map((item, itemIndex) => {
 					return (
 						<button
@@ -144,6 +157,7 @@ export default function Generator() {
 					);
 				})}
 			</div>
+			<Button func={updateWorkout} text={"Formulovať"} />
 		</SectionWrapper>
 	);
 }

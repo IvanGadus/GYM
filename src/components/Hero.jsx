@@ -20,7 +20,12 @@ export default function Hero() {
 				dolores illum maxime explicabo deleniti temporibus nihil voluptate iste
 				similique id doloremque ad, ut ducimus!
 			</p>
-			<Button text={"Prijať a zacať"} />
+			<Button
+				func={() => {
+					window.location.href = "#generate";
+				}}
+				text={"Prijať a zacať"}
+			/>
 		</div>
 	);
 }

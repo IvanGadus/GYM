@@ -5,7 +5,11 @@ import ExcerciseCard from "./ExcerciseCard";
 export default function Workout(props) {
 	const { workout } = props;
 	return (
-		<SectionWrapper header={"Vitaj."} title={["Pozor", "tréningová", "zóna."]}>
+		<SectionWrapper
+			id={"workout"}
+			header={"Vitaj."}
+			title={["Pozor", "tréningová", "zóna."]}
+		>
 			<div className="flex flex-col gap-4">
 				{workout?.map((item, itemIndex) => {
 					return (

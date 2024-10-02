@@ -58,6 +58,7 @@ export default function Generator(props) {
 	};
 	return (
 		<SectionWrapper
+			id={"generate"}
 			header={"Generuj tréningový plán."}
 			title={["Lorem,", "ipsum", "dolor."]}
 		>

@@ -1,9 +1,12 @@
-import { info } from "autoprefixer";
-import React from "react";
+import React, { useState } from "react";
 
 export default function ExcerciseCard(props) {
 	const { excercise, index } = props;
 	const [complete, setComplete] = useState(0);
+
+	const handleSetIncrement = () => {
+		setComplete((prev) => (prev + 1) % 6);
+	};
 	return (
 		<div className="p-4 rounded-md flex flex-col bg-slate-950 sm:flex-wrap">
 			<div className="flex flex-col sm:flex-row sm:items-center sm:flex-wrap gap-x-4">
@@ -22,6 +25,12 @@ export default function ExcerciseCard(props) {
 				<p className="capitalize">{excercise.muscles.join(" & ")}</p>
 			</div>
 
+			<div className="flex flex-col bg-slate-950 rounded gap-2  my-2">
+				{excercise.description.split("___").map((item) => {
+					return <div className="text-sm">{item}</div>;
+				})}
+			</div>
+
 			<div className="grid grid-cols-2 sm:grid-cols-4 sm:place-items-center gap-2">
 				{["reps", "rest", "tempo"].map((item) => {
 					return (
@@ -31,15 +40,17 @@ export default function ExcerciseCard(props) {
 						>
 							<h3 className="capitalize text-slate-400 text-sm">
 								{item === "reps" ? `${excercise.unit}` : item}
-								{console.log(excercise.unit)}
 							</h3>
 							<p className="font-medium">{excercise[item]}</p>
 						</div>
 					);
 				})}
-				<button className="flex flex-col p-2 rounded border-[1.5px] duration-200 border-solid border-blue-900 hover:border-blue-600 w-full ">
+				<button
+					onClick={handleSetIncrement}
+					className="flex flex-col p-2 rounded border-[1.5px] duration-200 border-solid border-blue-900 hover:border-blue-600 w-full "
+				>
 					<h3 className="text-slate-400 text-sm caption-top"></h3>
-					<p className="font-medium">{setComplete[index] || 0} / 5</p>
+					<p className="font-medium">{complete || 0} / 5</p>
 				</button>
 			</div>
 		</div>
